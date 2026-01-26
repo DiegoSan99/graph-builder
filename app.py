@@ -12,7 +12,8 @@ from plotly.subplots import make_subplots
 import sympy as sp
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application
 from typing import Dict, List, Tuple, Callable
-import time
+import base64
+from pathlib import Path
 
 # Configuración de página
 st.set_page_config(
@@ -38,6 +39,14 @@ st.markdown("""
     [data-testid="stMetricValue"] {
         font-size: 1.8rem !important;
         color: #00d4aa !important;
+    }
+    /* Ocultar ícono de link en toolbar */
+    [data-testid="stToolbar"] {
+        display: none !important;
+    }
+    /* Ocultar anclas de encabezados */
+    .stMainBlockContainer [data-testid="stHeaderActionElements"] {
+        display: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -209,25 +218,21 @@ def create_ball_simulation(height: float, max_height: float, velocity: float) ->
         showlegend=False, hoverinfo='skip'
     ))
 
-    # Niño (figura simple) - cuerpo
-    fig.add_trace(go.Scatter(
-        x=[-1, -1], y=[0, 1.5],
-        mode='lines', line=dict(color='#8B4513', width=10),
-        showlegend=False, hoverinfo='skip'
-    ))
-    # Cabeza
-    fig.add_trace(go.Scatter(
-        x=[-1], y=[1.8],
-        mode='markers', marker=dict(size=30, color='#FFDAB9', line=dict(color='#8B4513', width=2)),
-        showlegend=False, hoverinfo='skip'
-    ))
-    # Brazo lanzando
-    arm_angle = 0.5 if velocity > 0 else -0.3
-    fig.add_trace(go.Scatter(
-        x=[-1, -0.5], y=[1.2, 1.5 + arm_angle],
-        mode='lines', line=dict(color='#8B4513', width=6),
-        showlegend=False, hoverinfo='skip'
-    ))
+    # Rinoceronte (imagen PNG)
+    rhino_path = Path(__file__).parent / "assets" / "rhino.png"
+    if rhino_path.exists():
+        with open(rhino_path, "rb") as f:
+            rhino_base64 = base64.b64encode(f.read()).decode()
+        fig.add_layout_image(
+            dict(
+                source=f"data:image/png;base64,{rhino_base64}",
+                x=-1.9, y=7,
+                xref="x", yref="y",
+                sizex=5, sizey=7,
+                xanchor="left", yanchor="top",
+                layer="above"
+            )
+        )
 
     # La bola
     ball_color = '#FF4444' if velocity >= 0 else '#FF8C00'  # Rojo subiendo, naranja bajando
@@ -379,22 +384,8 @@ def main():
         # Entrada de función
         st.subheader("Función")
 
-        # Ejemplos
-        examples = {
-            "Bola lanzada": "20*t - 4.9*t**2",
-            "Satélite": "7500*t - (1/16)*t**3",
-            "Seno": "sin(t)",
-            "Exponencial": "exp(-t)*cos(2*t)",
-            "Parábola": "t**2 - 4*t + 3",
-            "Cúbica": "t**3 - 6*t**2 + 9*t"
-        }
-
-        selected_example = st.selectbox("Ejemplos:", ["Personalizado"] + list(examples.keys()))
-
-        if selected_example != "Personalizado":
-            default_func = examples[selected_example]
-        else:
-            default_func = st.session_state.get('last_func', "20*t - 4.9*t**2")
+        # Función fija: Bola lanzada
+        default_func = "20*t - 4.9*t**2"
 
         func_str = st.text_input("f(t) =", value=default_func,
                                   help="Usa ** para potencias, sin(), cos(), exp(), log()")
