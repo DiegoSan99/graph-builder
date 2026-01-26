@@ -387,10 +387,10 @@ def main():
         # Función fija: Bola lanzada
         default_func = "20*t - 4.9*t**2"
 
-        func_str = st.text_input("f(t) =", value=default_func,
-                                  help="Usa ** para potencias, sin(), cos(), exp(), log()")
+        func_str = st.text_input("h(t) =", value=default_func,
+                                  help="Altura en función del tiempo")
 
-        var_name = st.selectbox("Variable:", ['t', 'x', 's'])
+        var_name = 't'  # Variable fija para el problema de la bola
 
         # Rango
         st.subheader("Rango")
