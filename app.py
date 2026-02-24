@@ -17,7 +17,7 @@ from pathlib import Path
 
 # Configuración de página
 st.set_page_config(
-    page_title="Calculadora de Derivadas",
+    page_title="Simulador Matemático para el Aprendizaje Significativo de Problemas de Optimización",
     page_icon="📈",
     layout="wide"
 )
@@ -48,8 +48,206 @@ st.markdown("""
     .stMainBlockContainer [data-testid="stHeaderActionElements"] {
         display: none !important;
     }
+
+    /* Estilos para pantalla de introducción */
+    .intro-container {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        border-radius: 20px;
+        padding: 40px;
+        margin: 20px 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .intro-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, #00d4aa, #00b4d8, #90e0ef);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+    }
+
+    .intro-content {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 30px;
+        border-left: 4px solid #00d4aa;
+        margin: 20px 0;
+    }
+
+    .intro-content p {
+        color: #e0e0e0;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        text-align: justify;
+        margin-bottom: 15px;
+    }
+
+    .intro-icon {
+        text-align: center;
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+
+    .intro-features {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .feature-card {
+        background: rgba(0, 212, 170, 0.1);
+        border: 1px solid rgba(0, 212, 170, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        min-width: 150px;
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .feature-text {
+        color: #00d4aa;
+        font-weight: 600;
+    }
+
+    /* Estilos para calculadora */
+    .calc-container {
+        background: #1e1e2e;
+        border-radius: 12px;
+        padding: 8px;
+        margin: 8px 0;
+        border: 1px solid #3a3a4a;
+    }
+
+    .calc-display {
+        background: #0d0d15;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 8px;
+        font-family: 'Consolas', monospace;
+        font-size: 0.95rem;
+        color: #00d4aa;
+        border: 1px solid #2a2a3a;
+        word-wrap: break-word;
+        overflow-x: auto;
+    }
+
+    /* Botones de calculadora más compactos */
+    .stSidebar button {
+        padding: 0.3rem 0.2rem !important;
+        font-size: 0.8rem !important;
+        min-height: 2.2rem !important;
+    }
+
+    .stSidebar [data-testid="column"] {
+        padding: 0 2px !important;
+    }
 </style>
 """, unsafe_allow_html=True)
+
+
+def show_intro_screen():
+    """Muestra la pantalla de introducción sobre optimización."""
+    # Título centrado con estilo
+    st.markdown("""
+        <div style="text-align: center; padding: 20px 0;">
+            <span style="font-size: 4rem;">📐</span>
+        </div>
+        <h1 style="text-align: center; font-size: 2.5rem; font-weight: 700;
+                   background: linear-gradient(90deg, #00d4aa, #00b4d8, #90e0ef);
+                   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                   background-clip: text; text-transform: uppercase; letter-spacing: 3px;
+                   margin-bottom: 30px;">
+            Optimización
+        </h1>
+    """, unsafe_allow_html=True)
+
+    # Contenido en un container
+    with st.container():
+        st.markdown("""
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 15px;
+                    padding: 30px; border-left: 4px solid #00d4aa; margin: 20px auto; max-width: 800px;">
+            <p style="color: #e0e0e0; font-size: 1.1rem; line-height: 1.8; text-align: justify; margin-bottom: 15px;">
+                Un <strong style="color: #00d4aa;">problema de optimización</strong> consiste en minimizar o maximizar el valor de una variable.
+                En otras palabras, se trata de calcular o determinar el <strong style="color: #00d4aa;">valor mínimo</strong> o el
+                <strong style="color: #00d4aa;">valor máximo</strong> de una función de una variable.
+            </p>
+            <p style="color: #e0e0e0; font-size: 1.1rem; line-height: 1.8; text-align: justify; margin-bottom: 15px;">
+                Se debe tener presente que la variable que se desea minimizar o maximizar debe ser expresada como
+                <strong style="color: #00d4aa;">función de otra de las variables</strong> relacionadas en el problema.
+            </p>
+            <p style="color: #e0e0e0; font-size: 1.1rem; line-height: 1.8; text-align: justify; margin-bottom: 15px;">
+                En ocasiones es preciso considerar las <strong style="color: #00d4aa;">restricciones</strong> que se tengan en el problema,
+                ya que éstas generan igualdades entre las variables que permiten la obtención de la función de una
+                variable que se quiere minimizar o maximizar.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Tarjetas de características usando columnas de Streamlit
+    st.write("")
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.markdown("""
+        <div style="background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.3);
+                    border-radius: 12px; padding: 20px; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">📈</div>
+            <div style="color: #00d4aa; font-weight: 600;">Máximos</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div style="background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.3);
+                    border-radius: 12px; padding: 20px; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">📉</div>
+            <div style="color: #00d4aa; font-weight: 600;">Mínimos</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+        <div style="background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.3);
+                    border-radius: 12px; padding: 20px; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🔄</div>
+            <div style="color: #00d4aa; font-weight: 600;">Derivadas</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col4:
+        st.markdown("""
+        <div style="background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.3);
+                    border-radius: 12px; padding: 20px; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🎯</div>
+            <div style="color: #00d4aa; font-weight: 600;">Puntos Críticos</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Espacio y botón centrado
+    st.write("")
+    st.write("")
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("🚀 Comenzar Simulación", use_container_width=True, type="primary"):
+            st.session_state.show_intro = False
+            st.rerun()
 
 
 class DerivativeEngine:
@@ -109,13 +307,19 @@ class DerivativeEngine:
         return expr.subs(substitutions)
 
     def get_function_string(self) -> str:
-        return str(self.function_expr) if self.function_expr else ""
+        if self.function_expr:
+            return str(self.function_expr).replace('**', '^')
+        return ""
 
     def get_first_derivative_string(self) -> str:
-        return str(self.first_derivative) if self.first_derivative else ""
+        if self.first_derivative:
+            return str(self.first_derivative).replace('**', '^')
+        return ""
 
     def get_second_derivative_string(self) -> str:
-        return str(self.second_derivative) if self.second_derivative else ""
+        if self.second_derivative:
+            return str(self.second_derivative).replace('**', '^')
+        return ""
 
     def evaluate(self, t_values):
         """Evalúa función y derivadas para un array de valores."""
@@ -160,6 +364,48 @@ class DerivativeEngine:
             return y, y1, y2
         except:
             return 0, 0, 0
+
+    def get_calculation_steps(self, t: float, var_name: str) -> dict:
+        """Genera los pasos de cálculo con sustituciones."""
+        steps = {}
+        try:
+            f_expr = self._substitute_constants(self.function_expr)
+            f1_expr = self._substitute_constants(self.first_derivative)
+            f2_expr = self._substitute_constants(self.second_derivative)
+
+            # Función
+            f_str = str(f_expr).replace('**', '^')
+            f_subs = str(f_expr.subs(self.variable, t)).replace('**', '^')
+            f_result = float(f_expr.subs(self.variable, t))
+            steps['funcion'] = {
+                'formula': f"h({var_name}) = {f_str}",
+                'sustitucion': f"h({t}) = {f_subs}",
+                'resultado': f"h({t}) = {f_result:.4f} m"
+            }
+
+            # Primera derivada (velocidad)
+            f1_str = str(f1_expr).replace('**', '^')
+            f1_subs = str(f1_expr.subs(self.variable, t)).replace('**', '^')
+            f1_result = float(f1_expr.subs(self.variable, t))
+            steps['velocidad'] = {
+                'formula': f"v({var_name}) = h'({var_name}) = {f1_str}",
+                'sustitucion': f"v({t}) = {f1_subs}",
+                'resultado': f"v({t}) = {f1_result:.4f} m/s"
+            }
+
+            # Segunda derivada (aceleración)
+            f2_str = str(f2_expr).replace('**', '^')
+            f2_subs = str(f2_expr.subs(self.variable, t)).replace('**', '^')
+            f2_result = float(f2_expr.subs(self.variable, t))
+            steps['aceleracion'] = {
+                'formula': f"a({var_name}) = h''({var_name}) = {f2_str}",
+                'sustitucion': f"a({t}) = {f2_subs}",
+                'resultado': f"a({t}) = {f2_result:.4f} m/s²"
+            }
+
+        except Exception as e:
+            pass
+        return steps
 
     def find_critical_points(self, t_min: float, t_max: float) -> List[Tuple[float, float, str]]:
         """Encuentra puntos críticos."""
@@ -367,7 +613,24 @@ def create_plots(engine: DerivativeEngine, t_min: float, t_max: float,
 
 
 def main():
-    st.title("📈 Calculadora de Derivadas con Animación")
+    # Inicializar estado de pantalla de introducción
+    if 'show_intro' not in st.session_state:
+        st.session_state.show_intro = True
+
+    # Mostrar pantalla de introducción
+    if st.session_state.show_intro:
+        show_intro_screen()
+        return
+
+    st.title("SIMULADOR MATEMÁTICO PARA EL APRENDIZAJE SIGNIFICATIVO DE PROBLEMAS DE OPTIMIZACIÓN")
+
+    # Enunciado del problema
+    with st.expander("📋 Enunciado del Problema", expanded=True):
+        st.markdown("""
+**1. Se lanza una bola hacia arriba de modo que su altura sobre el suelo después de t segundos es h = 20t − 4.9t²[m].**
+
+   a. Halle su velocidad inicial de ascenso
+        """)
 
     # Inicializar estado
     if 'engine' not in st.session_state:
@@ -384,11 +647,144 @@ def main():
         # Entrada de función
         st.subheader("Función")
 
-        # Función fija: Bola lanzada
-        default_func = "20*t - 4.9*t**2"
+        # Inicializar estado de la calculadora
+        if 'calc_input' not in st.session_state:
+            st.session_state.calc_input = "20*t - 4.9*t^2"
 
-        func_str = st.text_input("h(t) =", value=default_func,
-                                  help="Altura en función del tiempo")
+        # Campo de texto editable
+        new_input = st.text_input(
+            "h(t) =",
+            value=st.session_state.calc_input,
+            key="func_text_input",
+            help="Escribe directamente o usa los botones"
+        )
+        # Actualizar el estado si cambió
+        if new_input != st.session_state.calc_input:
+            st.session_state.calc_input = new_input
+
+        # Botones de la calculadora - Layout 3 columnas
+        # Fila 1: Números 7-9
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("7", use_container_width=True, key="k7"):
+                st.session_state.calc_input += "7"
+                st.rerun()
+        with c2:
+            if st.button("8", use_container_width=True, key="k8"):
+                st.session_state.calc_input += "8"
+                st.rerun()
+        with c3:
+            if st.button("9", use_container_width=True, key="k9"):
+                st.session_state.calc_input += "9"
+                st.rerun()
+
+        # Fila 2: Números 4-6
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("4", use_container_width=True, key="k4"):
+                st.session_state.calc_input += "4"
+                st.rerun()
+        with c2:
+            if st.button("5", use_container_width=True, key="k5"):
+                st.session_state.calc_input += "5"
+                st.rerun()
+        with c3:
+            if st.button("6", use_container_width=True, key="k6"):
+                st.session_state.calc_input += "6"
+                st.rerun()
+
+        # Fila 3: Números 1-3
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("1", use_container_width=True, key="k1"):
+                st.session_state.calc_input += "1"
+                st.rerun()
+        with c2:
+            if st.button("2", use_container_width=True, key="k2"):
+                st.session_state.calc_input += "2"
+                st.rerun()
+        with c3:
+            if st.button("3", use_container_width=True, key="k3"):
+                st.session_state.calc_input += "3"
+                st.rerun()
+
+        # Fila 4: 0, punto, t
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("0", use_container_width=True, key="k0"):
+                st.session_state.calc_input += "0"
+                st.rerun()
+        with c2:
+            if st.button(".", use_container_width=True, key="kdot"):
+                st.session_state.calc_input += "."
+                st.rerun()
+        with c3:
+            if st.button("t", use_container_width=True, type="primary", key="kt"):
+                st.session_state.calc_input += "t"
+                st.rerun()
+
+        # Fila 5: Operadores
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("+", use_container_width=True, key="kplus"):
+                st.session_state.calc_input += "+"
+                st.rerun()
+        with c2:
+            if st.button("−", use_container_width=True, key="kminus"):
+                st.session_state.calc_input += "-"
+                st.rerun()
+        with c3:
+            if st.button("×", use_container_width=True, key="kmult"):
+                st.session_state.calc_input += "*"
+                st.rerun()
+
+        # Fila 6: Más operadores
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("÷", use_container_width=True, key="kdiv"):
+                st.session_state.calc_input += "/"
+                st.rerun()
+        with c2:
+            if st.button("^", use_container_width=True, key="kpow"):
+                st.session_state.calc_input += "^"
+                st.rerun()
+        with c3:
+            if st.button("√", use_container_width=True, key="ksqrt"):
+                st.session_state.calc_input += "sqrt("
+                st.rerun()
+
+        # Fila 7: Paréntesis y borrar
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("(", use_container_width=True, key="klp"):
+                st.session_state.calc_input += "("
+                st.rerun()
+        with c2:
+            if st.button(")", use_container_width=True, key="krp"):
+                st.session_state.calc_input += ")"
+                st.rerun()
+        with c3:
+            if st.button("⌫", use_container_width=True, key="kdel"):
+                st.session_state.calc_input = st.session_state.calc_input[:-1]
+                st.rerun()
+
+        # Fila 8: Funciones y limpiar
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("sin", use_container_width=True, key="ksin"):
+                st.session_state.calc_input += "sin("
+                st.rerun()
+        with c2:
+            if st.button("cos", use_container_width=True, key="kcos"):
+                st.session_state.calc_input += "cos("
+                st.rerun()
+        with c3:
+            if st.button("C", use_container_width=True, key="kclear"):
+                st.session_state.calc_input = ""
+                st.rerun()
+
+        # Usar la función de la calculadora
+        func_str = st.session_state.calc_input if st.session_state.calc_input else "0"
 
         var_name = 't'  # Variable fija para el problema de la bola
 
@@ -503,6 +899,37 @@ def main():
             fig = create_plots(engine, t_min, t_max, current_t, var_name)
             if fig:
                 st.plotly_chart(fig, use_container_width=True)
+
+        # Sección de cálculos con sustituciones
+        st.subheader("📝 Cálculos con Sustituciones")
+        calc_steps = engine.get_calculation_steps(current_t, var_name)
+
+        if calc_steps:
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                st.markdown("**Altura h(t)**")
+                if 'funcion' in calc_steps:
+                    st.code(calc_steps['funcion']['formula'], language=None)
+                    st.markdown("Sustituyendo t = " + str(current_t) + ":")
+                    st.code(calc_steps['funcion']['sustitucion'], language=None)
+                    st.success(calc_steps['funcion']['resultado'])
+
+            with col2:
+                st.markdown("**Velocidad v(t) = h'(t)**")
+                if 'velocidad' in calc_steps:
+                    st.code(calc_steps['velocidad']['formula'], language=None)
+                    st.markdown("Sustituyendo t = " + str(current_t) + ":")
+                    st.code(calc_steps['velocidad']['sustitucion'], language=None)
+                    st.success(calc_steps['velocidad']['resultado'])
+
+            with col3:
+                st.markdown("**Aceleración a(t) = h''(t)**")
+                if 'aceleracion' in calc_steps:
+                    st.code(calc_steps['aceleracion']['formula'], language=None)
+                    st.markdown("Sustituyendo t = " + str(current_t) + ":")
+                    st.code(calc_steps['aceleracion']['sustitucion'], language=None)
+                    st.success(calc_steps['aceleracion']['resultado'])
     else:
         st.warning("Ingresa una función válida en el panel izquierdo.")
 
